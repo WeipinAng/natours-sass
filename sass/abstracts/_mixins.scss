@@ -1,0 +1,82 @@
+@mixin clearfix {
+  &::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin absCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// MEDIA QUERY MANAGER (DESKTOP-FIRST)
+
+/*
+0 - 600px:     Phone
+600 - 900px:   Tablet portrait
+900 - 1200px:  Tablet landscape
+[1200 - 1800] is where our normal styles apply
+1800px +:      Big desktop
+*/
+
+// @mixin respond-phone {
+//   @media (max-width: 600px) {
+//     // content directive (parse a block of code into a mixin)
+//     @content;
+//   }
+// }
+
+// one huge mixin covering all the cases
+
+/*
+DOCUMENTATION
+$breakpoint argument choices:
+
+- phone 600px
+- tab-port 900px
+- tab-land 1200px
+- big-desktop 1800px
+
+ORDER: base + typography > general layout + grid > page layout > components
+*/
+
+// if directive [advanced programming]
+// we cannot use px in media queries because if the user changes the default font size in the browser, then the emdia queries would not be affected by that (em is a more accessible solution and will be adopted to the font size set for the browser
+// Parcularities about em and rem in media queries: they are not affected by a root font size setting (one rem or one em in media queries is always equal to the font size coming from the browser - by default 16px regardless of base font definition)
+// What we are going to use is em and not rem because rem fails to work as intended in some of the browsers
+// 1em = 16px
+// "only screen" is used so that media queries only get applied to screens (if someone tries to print out the page, then these media queries don't apply)
+
+@mixin respond($breakpoint) {
+  @if $breakpoint == phone {
+    @media only screen and (max-width: 37.5em) {
+      // 600px
+      @content;
+    }
+  }
+
+  @if $breakpoint == tab-port {
+    @media only screen and (max-width: 56.25em) {
+      // 900px
+      @content;
+    }
+  }
+
+  @if $breakpoint == tab-land {
+    @media only screen and (max-width: 75em) {
+      // 1200px
+      @content;
+    }
+  }
+
+  @if $breakpoint == big-desktop {
+    @media only screen and (min-width: 112.5em) {
+      // 1800px
+      @content;
+    }
+  }
+}

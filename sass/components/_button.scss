@@ -1,0 +1,120 @@
+.btn {
+  &,
+  &:link,
+  &:visited {
+    text-transform: uppercase;
+    text-decoration: none;
+
+    display: inline-block;
+    padding: 1.5rem 4rem;
+
+    border-radius: 10rem;
+
+    transition: all 0.2s;
+
+    position: relative;
+
+    font-size: $default-font-size;
+
+    //Change for the <button> element in the form by adding & above
+    border: none;
+    cursor: pointer;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 1rem 2rem rgba($color-black, 0.2);
+
+    /* let the element to grow and fade out (when we hover the button, then we want some certain styles for the after pseudo-element - after pseudo-element only when we have button on the hover state) */
+    &::after {
+      transform: scaleX(1.4) scaleY(1.6);
+
+      /* fading something out using opacity technique */
+      opacity: 0;
+    }
+  }
+
+  &:active,
+  &:focus {
+    transform: translateY(-1px);
+    box-shadow: 0 0.5rem 1rem rgba($color-black, 0.2);
+
+    //Change specifically for the <button> element in the form
+    outline: none;
+  }
+
+  &--white {
+    background-color: $color-white;
+    color: $color-grey-dark;
+
+    &::after {
+      background-color: $color-white;
+
+      z-index: -1;
+    }
+  }
+
+  &--green {
+    background-color: $color-primary;
+    color: $color-white;
+
+    &::after {
+      background-color: $color-primary;
+
+      z-index: -1;
+    }
+  }
+
+  &::after {
+    content: "";
+    display: inline-block;
+
+    /* this works because the after pseudo-element is treated like a child of the button -if we set the height to 100%, that is 100% of the width of the button */
+    height: 100%;
+    width: 100%;
+
+    border-radius: 10rem;
+
+    /* place it behind the actual button */
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+
+    transition: all 0.4s;
+  }
+
+  &--animated {
+    animation: moveInBottom 0.5s ease-out 0.75s;
+
+    /* automatically apply the styles up to 0 percent before the animation starts */
+    animation-fill-mode: backwards;
+  }
+}
+
+.btn-text {
+  &:link,
+  &:visited {
+    font-size: $default-font-size;
+    color: $color-primary;
+    display: inline-block;
+
+    text-decoration: none;
+    border-bottom: 1px solid $color-primary;
+    padding: 3px;
+
+    transition: all 0.2s;
+  }
+
+  &:hover {
+    background-color: $color-primary;
+    color: $color-white;
+    box-shadow: 0 1rem 2rem rgba($color-black, 0.2);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    box-shadow: 0 0.5rem 1rem rgba($color-black, 0.2);
+    transform: translateY(0);
+  }
+}

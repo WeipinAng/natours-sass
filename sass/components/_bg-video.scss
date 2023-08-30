@@ -1,0 +1,23 @@
+.bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+
+  // ensure it is behind all elements
+  z-index: -1;
+
+  opacity: 0.15;
+
+  overflow: hidden;
+
+  &__content {
+    height: 100%;
+    width: 100%;
+
+    // occupying the entire section while maintaining the aspect ratio of the video
+    // object-fit works same as background-size used for image
+    object-fit: cover;
+  }
+}

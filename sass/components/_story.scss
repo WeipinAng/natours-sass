@@ -1,0 +1,108 @@
+.story {
+  width: 75%;
+  margin: 0 auto;
+  box-shadow: 0 3rem 6rem rgba($color-black, 0.1);
+  background-color: rgba($color-white, 0.6);
+  border-radius: 3px;
+  padding: 6rem;
+  // additional padding on left to compensate for translating the circle in x-direction for 3rem
+  padding-left: 9rem;
+  font-size: $default-font-size;
+
+  transform: skewX(-12deg);
+
+  // this way will only works for &__text but not for the image as there is already one transform property below for &__shape (currently in css, there is no way for 2 transform property to happen at the same time) - so the only way would be make it separately by adding skew on both manually [they are working on to solve it in the near future]
+  //   & > * {
+  //     transform: skewX(12deg);
+  //   }
+
+  @include respond(tab-port) {
+    width: 100%;
+    padding: 4rem;
+    padding-left: 7rem;
+  }
+
+  @include respond(phone) {
+    transform: skewX(0);
+  }
+
+  &__shape {
+    width: 15rem;
+    height: 15rem;
+    float: left;
+
+    transform: translateX(-3rem) skewX(12deg);
+
+    position: relative;
+
+    @supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0)) {
+      -webkit-clip-path: circle(50% at 50% 50%);
+      clip-path: circle(50% at 50% 50%);
+
+      // shape-outside (defines where the content floats around the element) is a demanding property in which the element has to be floated and it has a height and a width
+      // shape-outside: circle(radius of circle [half of width] at position of center of circle [center horizontally and vertically]);
+      -webkit-shape-outside: circle(50% at 50% 50%);
+      shape-outside: circle(50% at 50% 50%);
+
+      border-radius: 0;
+    }
+    overflow: hidden;
+    border-radius: 50%;
+
+    @include respond(phone) {
+      transform: translateX(-3rem) skewX(0);
+    }
+  }
+
+  &__img {
+    // flexible images for responsive web design always need a width/height
+    // in the case which width of image is wider than the height, we should set the height to 100% instead of width
+    height: 100%;
+
+    transform: translateX(-4rem) scale(1.4);
+    // solve most animation and translating issues
+    backface-visibility: hidden;
+
+    transition: all 0.5s;
+  }
+
+  &__text {
+    transform: skewX(12deg);
+
+    @include respond(phone) {
+      transform: skewX(0);
+    }
+  }
+
+  // having image to zoom out, blurred and text to fade in
+  &__caption {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 20%);
+
+    color: $color-white;
+    text-transform: uppercase;
+    font-size: 1.7rem;
+    text-align: center;
+
+    opacity: 0;
+
+    transition: all 0.5s;
+    // fix mild glitch problem
+    backface-visibility: hidden;
+  }
+
+  &:hover &__caption {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+
+  &:hover &__img {
+    // scale the image down
+    transform: translateX(-4rem) scale(1);
+
+    // make the image and blurred and darker
+    filter: blur(3px) brightness(80%);
+  }
+}
